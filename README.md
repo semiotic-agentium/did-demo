@@ -1,6 +1,6 @@
 # DID Demo Webapp
 
-This project is a simple, single-page web application demonstrating two distinct authentication flows: a standard Google Sign-In and a zkLogin (Zero-Knowledge Login) flow using Google as the OpenID Connect (OIDC) provider.
+This project is a simple, single-page web application demonstrating two distinct authentication flows: a standard Google Sign-In and a zkLogin (Sui-specific login) flow using Google as the OpenID Connect (OIDC) provider.
 
 ## Features
 
