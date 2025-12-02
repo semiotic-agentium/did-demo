@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google'
 import type { CredentialResponse } from '@react-oauth/google'
 import { jwtDecode } from 'jwt-decode'
-import MockGoogleLogin from './MockGoogleLogin'
 
 const StandardLogin: React.FC = () => {
   const [idToken, setIdToken] = useState<string | null>(null)
@@ -31,19 +30,11 @@ const StandardLogin: React.FC = () => {
     <div className="flow-section">
       <h2>Standard Google Sign-In</h2>
       <div className="button-group">
-        {import.meta.env.DEV ? (
-          <MockGoogleLogin
-            onSuccess={handleLoginSuccess}
-            onError={handleLoginError}
-            useOneTap
-          />
-        ) : (
-          <GoogleLogin
-            onSuccess={handleLoginSuccess}
-            onError={handleLoginError}
-            useOneTap
-          />
-        )}
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={handleLoginError}
+          useOneTap
+        />
       </div>
       <div className="status-display">
         <h3>Status</h3>
