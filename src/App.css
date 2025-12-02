@@ -120,6 +120,7 @@ hr {
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
+  box-sizing: border-box;
 }
 
 .flow-section h3 {
@@ -136,6 +137,21 @@ hr {
   padding: 8px 16px;
   font-size: 0.9em;
   margin-right: 10px;
+}
+
+/* Responsive grid for Standard and zkLogin flows */
+.flows-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Side-by-side layout on larger screens (900px+) */
+@media (min-width: 900px) {
+  .flows-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* Mock Google button styling (used by MockGoogleLogin) */
