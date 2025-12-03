@@ -6,12 +6,10 @@ const MainPage: React.FC = () => {
   return (
     <div className="main-container">
       <h1>DID Demo</h1>
-
-      <StandardLogin />
-
-      <hr />
-
-      <ZkLogin />
+      <div className="flows-grid">
+        <StandardLogin />
+        <ZkLogin />
+      </div>
     </div>
   )
 }
