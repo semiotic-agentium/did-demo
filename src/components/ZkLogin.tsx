@@ -4,6 +4,7 @@ import { generateNonce, generateRandomness } from '@mysten/sui/zklogin'
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client'
 import { jwtDecode } from 'jwt-decode'
 import { GOOGLE_CLIENT_ID } from '../config'
+import DidGenerator from './DidGenerator'
 
 const ZkLogin: React.FC = () => {
   const [ephemeralKeyPair, setEphemeralKeyPair] =
@@ -113,6 +114,7 @@ const ZkLogin: React.FC = () => {
             <pre>{zkLoginJwt}</pre>
             <h4>Decoded Payload:</h4>
             <pre>{JSON.stringify(decodedZkLoginJwt, null, 2)}</pre>
+            <DidGenerator idToken={zkLoginJwt} />
           </>
         ) : (
           <pre>Waiting for Google redirect...</pre>

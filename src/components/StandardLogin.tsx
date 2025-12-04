@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google'
 import type { CredentialResponse } from '@react-oauth/google'
 import { jwtDecode } from 'jwt-decode'
+import DidGenerator from './DidGenerator'
+import { AgentiumClient } from '@semiotic-labs/agentium-sdk'
 
 const StandardLogin: React.FC = () => {
   const [idToken, setIdToken] = useState<string | null>(null)
@@ -44,6 +46,7 @@ const StandardLogin: React.FC = () => {
             <pre>{idToken}</pre>
             <h4>Decoded Payload:</h4>
             <pre>{JSON.stringify(decodedToken, null, 2)}</pre>
+            <DidGenerator idToken={idToken} />
           </>
         ) : (
           <pre>Not logged in</pre>
