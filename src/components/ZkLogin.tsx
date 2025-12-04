@@ -109,8 +109,6 @@ const ZkLogin: React.FC = () => {
             <pre>{JSON.stringify(decodedZkLoginJwt, null, 2)}</pre>
             <DidGenerator idToken={zkLoginJwt} />
           </>
-        ) : import.meta.env.DEV ? (
-          <DidGenerator idToken={null} />
         ) : (
           <pre>Waiting for Google redirect...</pre>
         )}
