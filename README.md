@@ -17,59 +17,112 @@ This project is a simple, single-page web application demonstrating two distinct
   - Generating randomness and a unique nonce.
   - Redirecting to Google for authentication with the zkLogin-specific nonce.
   - Handling the redirect back and displaying the raw and decoded ID token (JWT) obtained through the zkLogin process.
+- **DID Generation with Agentium SDK:** After a successful sign-in, the application uses the `@semiotic-labs/agentium-sdk` to connect the user's identity and generate a Decentralized Identifier (DID).
 
-## Setup
+## Agentium SDK Integration
 
-### 1. Environment Variables
+This demo showcases how to use the `@semiotic-labs/agentium-sdk` to generate a DID from a Google ID token. The core logic is encapsulated in the `src/components/DidGenerator.tsx` component.
 
-This project uses environment variables to manage sensitive information like the Google OAuth Client ID.
+After a successful sign-in (either standard or zkLogin), the `DidGenerator` component receives the ID token and performs the following steps:
 
-- Copy `.env.example` to `.env` and set your Google OAuth Client ID.
+1.  Initializes the `AgentiumClient` from the SDK.
+2.  Calls the `connectGoogleIdentity` method with the ID token.
+3.  Displays the received DID and a "Registered on Agentium" badge.
 
-  ```
-  VITE_GOOGLE_CLIENT_ID="YOUR_ACTUAL_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-  ```
+## For Developers
 
-### 2. Install Dependencies
+### Project Setup
 
-Install the project dependencies using npm:
+1.  **Environment Variables**
 
-```bash
-npm install
-```
+    This project uses environment variables to manage sensitive information like the Google OAuth Client ID.
+    - Copy `.env.example` to `.env` and set your Google OAuth Client ID.
 
-### 3. Run the Application
+      ```
+      VITE_GOOGLE_CLIENT_ID="YOUR_ACTUAL_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+      ```
 
-To start the development server:
+2.  **Install Dependencies**
 
-```bash
-npm run dev
-```
+    Install the project dependencies using npm:
 
-The application will typically be accessible at `http://localhost:5173`.
+    ```bash
+    npm install
+    ```
 
-### 4. Google OAuth Client ID Configuration
+3.  **Run the Application**
 
-For both the Standard Google Sign-In and the zkLogin flow to work, you need to configure your Google OAuth Client ID correctly in the Google Cloud Console:
+    To start the development server:
 
-- Ensure your **Authorized JavaScript origins** includes `http://localhost:5173`.
-- Ensure your **Authorized redirect URIs** includes `http://localhost:5173`.
+    ```bash
+    npm run dev
+    ```
 
-## Development
+    The application will typically be accessible at `http://localhost:5173`.
+
+4.  **Google OAuth Client ID Configuration**
+
+    For both the Standard Google Sign-In and the zkLogin flow to work, you need to configure your Google OAuth Client ID correctly in the Google Cloud Console:
+    - Ensure your **Authorized JavaScript origins** includes `http://localhost:5173`.
+    - Ensure your **Authorized redirect URIs** includes `http://localhost:5173`.
 
 ### Linting and Formatting
 
-This project uses ESLint for linting and Prettier for code formatting.
+This project uses ESLint for linting and Prettier for code formatting. The following npm scripts are available:
+
+- **Check all (lint and format):**
+
+  ```bash
+  npm run check
+  ```
 
 - **Run Linter:**
+
   ```bash
   npm run lint
   ```
-- **Run Prettier (to format code):**
+
+- **Check formatting only:**
+
   ```bash
-  npx prettier --write .
+  npm run format:check
   ```
+
+- **Format code (fix issues):**
+  ```bash
+  npm run format:write
+  ```
+
+### REUSE Compliance
+
+This project follows the [REUSE Specification](https://reuse.software/spec/). To ensure compliance:
+
+1.  **Install REUSE Tool:** You'll need to install the `reuse` command-line tool, for example via `pip`:
+
+    ```bash
+    pip install reuse
+    ```
+
+2.  **Applying SPDX Headers:** To add or update SPDX license and copyright headers to all relevant files:
+
+    ```bash
+    npm run reuse:write
+    ```
+
+3.  **Verify Compliance:** To check if the project is fully REUSE compliant:
+
+    ```bash
+    npm run reuse:check
+    ```
+
+### Building the Project
+
+To compile the TypeScript code into JavaScript in the `dist` folder:
+
+```bash
+npm run build
+```
 
 ---
 
-**Note:** This demo focuses on the frontend authentication flows. It does not include backend integration for DID creation or the full zkLogin proof generation and transaction signing beyond JWT retrieval.
+**Note:** This demo focuses on the frontend authentication flows and includes DID generation via the Agentium SDK. It does not include the full zkLogin proof generation and transaction signing beyond JWT retrieval.
