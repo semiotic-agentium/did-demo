@@ -3,8 +3,6 @@ import { GoogleLogin } from '@react-oauth/google';
 import type { CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import DidGenerator from './DidGenerator';
-import { AgentiumClient } from '@semiotic-labs/agentium-sdk';
-
 const StandardLogin: React.FC = () => {
   const [idToken, setIdToken] = useState<string | null>(null);
   const [decodedToken, setDecodedToken] = useState<object | null>(null);
