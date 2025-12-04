@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Semiotic AI, Inc.
+//
+// SPDX-License-Identifier: MIT
+
 // Load environment variables. VITE_ prefix is required for Vite.
 // IMPORTANT: Do NOT commit your actual Client ID to version control!
 // Instead, create a .env file in your project root with:

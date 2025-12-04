@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Semiotic AI, Inc.
+
+SPDX-License-Identifier: MIT
+-->
+
 # DID Demo Webapp
 
 This project is a simple, single-page web application demonstrating two distinct authentication flows: a standard Google Sign-In and a zkLogin (Sui-specific login) flow using Google as the OpenID Connect (OIDC) provider.

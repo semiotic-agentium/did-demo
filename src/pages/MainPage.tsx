@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Semiotic AI, Inc.
+//
+// SPDX-License-Identifier: MIT
+
 import React from 'react';
 import StandardLogin from '../components/StandardLogin';
 import ZkLogin from '../components/ZkLogin';

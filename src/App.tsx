@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Semiotic AI, Inc.
+//
+// SPDX-License-Identifier: MIT
+
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import MainPage from './pages/MainPage';
 import './App.css';

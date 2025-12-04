@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Semiotic AI, Inc.
+//
+// SPDX-License-Identifier: MIT
+
 import React, { useState, useEffect } from 'react';
 import { AgentiumClient } from '@semiotic-labs/agentium-sdk';
 
