@@ -1,6 +1,6 @@
-import React from 'react'
-import StandardLogin from '../components/StandardLogin'
-import ZkLogin from '../components/ZkLogin'
+import React from 'react';
+import StandardLogin from '../components/StandardLogin';
+import ZkLogin from '../components/ZkLogin';
 
 const MainPage: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ const MainPage: React.FC = () => {
         <ZkLogin />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;
