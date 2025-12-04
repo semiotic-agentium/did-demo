@@ -46,6 +46,8 @@ const StandardLogin: React.FC = () => {
             <pre>{JSON.stringify(decodedToken, null, 2)}</pre>
             <DidGenerator idToken={idToken} />
           </>
+        ) : import.meta.env.DEV ? (
+          <DidGenerator idToken={null} />
         ) : (
           <pre>Not logged in</pre>
         )}

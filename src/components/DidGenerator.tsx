@@ -15,34 +15,52 @@ const DidGenerator: React.FC<DidGeneratorProps> = ({ idToken }) => {
 
   useEffect(() => {
     const connectIdentity = async () => {
-      if (idToken) {
-        try {
+      try {
+        if (import.meta.env.DEV) {
+          // Mock DID response in dev mode - always show success
+          await new Promise((resolve) => setTimeout(resolve, 1200));
+          setDid('did:key:z6MkhaXgBZDvotDkL5257faWxcqV7aGHRLGKAJWSV5gYvR39');
+        } else if (idToken) {
           const client = new AgentiumClient();
           const response = await client.connectGoogleIdentity(idToken);
           setDid(response.did);
-        } catch (error) {
-          console.error('Failed to connect identity:', error);
-          setError('Failed to connect identity');
         }
+      } catch (error) {
+        console.error('Failed to connect identity:', error);
+        setError('Failed to connect identity');
       }
     };
 
     connectIdentity();
-  }, [idToken]);
+  }, []);
 
   return (
-    <div className="status-display">
+    <div className="did-status-container">
       <h3>DID Status</h3>
       {did ? (
-        <>
-          <h4>DID Received:</h4>
-          <pre>{did}</pre>
-          <img src="/agentium-badge.svg" alt="Registered on Agentium" width="200" />
-        </>
+        <div className="did-success">
+          <div className="did-badge-section">
+            <img
+              src="/agentium-badge.svg"
+              alt="Registered on Agentium"
+              className="agentium-badge"
+            />
+            <p className="did-registered-text">Registered on Agentium</p>
+          </div>
+          <div className="did-details">
+            <h4>DID Received:</h4>
+            <code className="did-code">{did}</code>
+          </div>
+        </div>
       ) : error ? (
-        <pre>{error}</pre>
+        <div className="did-error">
+          <p className="error-text">{error}</p>
+        </div>
       ) : (
-        <pre>Generating DID...</pre>
+        <div className="did-loading">
+          <div className="spinner" />
+          <p>Generating DID...</p>
+        </div>
       )}
     </div>
   );
