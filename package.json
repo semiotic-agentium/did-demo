@@ -7,17 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "format:check": "prettier --check .",
-    "format:write": "prettier --write .",
-    "check": "npm run lint && npm run format:check",
-    "reuse:check": "reuse lint",
-    "reuse:write": "reuse annotate --license MIT --copyright \"Semiotic AI, Inc.\" --year 2025 -r . --fallback-dot-license --skip-existing"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@mysten/sui": "^1.45.0",
     "@react-oauth/google": "^0.12.2",
-    "@semiotic-labs/agentium-sdk": "^0.2.0",
+    "@semiotic-labs/agentium-sdk": "^0.6.0",
     "axios": "^1.13.2",
     "jwt-decode": "^4.0.0",
     "react": "^19.2.0",
