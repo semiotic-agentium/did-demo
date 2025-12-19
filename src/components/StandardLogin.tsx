@@ -2,35 +2,33 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import React, { useState } from 'react'
-import { GoogleLogin } from '@react-oauth/google'
-import type { CredentialResponse } from '@react-oauth/google'
-import { getAgentiumClient } from '../api/agentium'
-import type { ConnectIdentityResult } from '../api/identity'
+import React, { useState } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
+import type { CredentialResponse } from '@react-oauth/google';
+import { getAgentiumClient } from '../api/agentium';
+import type { ConnectIdentityResult } from '../api/identity';
 
 interface StandardLoginProps {
-  onLoginResult?: (result: ConnectIdentityResult) => void
+  onLoginResult?: (result: ConnectIdentityResult) => void;
 }
 
 const StandardLogin: React.FC<StandardLoginProps> = ({ onLoginResult }) => {
-  const [idToken, setIdToken] = useState<string | null>(null)
-  const [identityResult, setIdentityResult] =
-    useState<ConnectIdentityResult | null>(null)
-  const [connecting, setConnecting] = useState(false)
+  const [idToken, setIdToken] = useState<string | null>(null);
+  const [identityResult, setIdentityResult] = useState<ConnectIdentityResult | null>(null);
+  const [connecting, setConnecting] = useState(false);
 
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
-      const token = credentialResponse.credential
-      setIdToken(token)
+      const token = credentialResponse.credential;
+      setIdToken(token);
 
       // Connect identity using AgentiumClient
-      setConnecting(true)
-      setIdentityResult(null)
+      setConnecting(true);
+      setIdentityResult(null);
 
       try {
-        const client = await getAgentiumClient()
-        const response = await client.connectGoogleIdentity(token)
+        const client = await getAgentiumClient();
+        const response = await client.connectGoogleIdentity(token);
 
         const result: ConnectIdentityResult = {
           success: true,
@@ -40,40 +38,36 @@ const StandardLogin: React.FC<StandardLoginProps> = ({ onLoginResult }) => {
           accessToken: response.accessToken,
           refreshToken: response.refreshToken,
           expiresIn: response.expiresIn,
-        }
-        setIdentityResult(result)
-        onLoginResult?.(result)
+        };
+        setIdentityResult(result);
+        onLoginResult?.(result);
       } catch (error) {
         const result: ConnectIdentityResult = {
           success: false,
           error: error instanceof Error ? error.message : 'Unknown error',
-        }
-        setIdentityResult(result)
-        onLoginResult?.(result)
+        };
+        setIdentityResult(result);
+        onLoginResult?.(result);
       } finally {
-        setConnecting(false)
+        setConnecting(false);
       }
     } else {
-      console.log('Login Failed: No credential received')
-      setIdToken('Login Failed: No credential received')
-      setIdentityResult(null)
+      console.log('Login Failed: No credential received');
+      setIdToken('Login Failed: No credential received');
+      setIdentityResult(null);
     }
-  }
+  };
 
   const handleLoginError = () => {
-    console.log('Login Failed')
-    setIdToken('Login Failed')
-  }
+    console.log('Login Failed');
+    setIdToken('Login Failed');
+  };
 
   return (
     <div className="flow-section">
       <h2>Standard Google Sign-In</h2>
       <div className="button-group">
-        <GoogleLogin
-          onSuccess={handleLoginSuccess}
-          onError={handleLoginError}
-          useOneTap
-        />
+        <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} useOneTap />
       </div>
       {/* Result Display */}
       {idToken && (
@@ -112,23 +106,18 @@ const StandardLogin: React.FC<StandardLoginProps> = ({ onLoginResult }) => {
                       <strong>DID:</strong> <code>{identityResult.did}</code>
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                      <strong>Badge Status:</strong>{' '}
-                      {identityResult.badge?.status || 'Unknown'}
+                      <strong>Badge Status:</strong> {identityResult.badge?.status || 'Unknown'}
                     </div>
                     <div
                       style={{
                         padding: '8px',
-                        backgroundColor: identityResult.isNew
-                          ? '#fff4e6'
-                          : '#e6f3ff',
+                        backgroundColor: identityResult.isNew ? '#fff4e6' : '#e6f3ff',
                         borderRadius: '4px',
                         color: identityResult.isNew ? '#cc6600' : '#0066cc',
                       }}
                     >
                       <strong>
-                        {identityResult.isNew
-                          ? '🆕 New Registration'
-                          : '♻️ Existing Registration'}
+                        {identityResult.isNew ? '🆕 New Registration' : '♻️ Existing Registration'}
                       </strong>
                     </div>
                   </div>
@@ -153,7 +142,7 @@ const StandardLogin: React.FC<StandardLoginProps> = ({ onLoginResult }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default StandardLogin
+export default StandardLogin;

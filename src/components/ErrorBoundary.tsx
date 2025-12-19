@@ -2,27 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import { Component, type ErrorInfo, type ReactNode } from 'react'
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 interface Props {
-  children: ReactNode
+  children: ReactNode;
 }
 
 interface State {
-  hasError: boolean
-  error: Error | null
-  errorInfo: ErrorInfo | null
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
 }
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
-    super(props)
+    super(props);
     this.state = {
       hasError: false,
       error: null,
       errorInfo: null,
-    }
+    };
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -30,15 +29,15 @@ class ErrorBoundary extends Component<Props, State> {
       hasError: true,
       error,
       errorInfo: null,
-    }
+    };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('[ErrorBoundary] Caught error:', error, errorInfo)
+    console.error('[ErrorBoundary] Caught error:', error, errorInfo);
     this.setState({
       error,
       errorInfo,
-    })
+    });
   }
 
   render() {
@@ -71,8 +70,8 @@ class ErrorBoundary extends Component<Props, State> {
           </pre>
           <button
             onClick={() => {
-              this.setState({ hasError: false, error: null, errorInfo: null })
-              window.location.reload()
+              this.setState({ hasError: false, error: null, errorInfo: null });
+              window.location.reload();
             }}
             style={{
               marginTop: '10px',
@@ -87,11 +86,11 @@ class ErrorBoundary extends Component<Props, State> {
             Reload Page
           </button>
         </div>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
 
-export default ErrorBoundary
+export default ErrorBoundary;

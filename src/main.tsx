@@ -2,30 +2,29 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { initializeConfig } from './config'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.tsx';
+import { initializeConfig } from './config';
 
 // Initialize runtime configuration before rendering
 initializeConfig()
   .then(() => {
-    console.log('[did-demo] Config initialized, rendering app...')
-    const rootElement = document.getElementById('root')
+    console.log('[did-demo] Config initialized, rendering app...');
+    const rootElement = document.getElementById('root');
     if (!rootElement) {
-      throw new Error('Root element not found')
+      throw new Error('Root element not found');
     }
     createRoot(rootElement).render(
       <StrictMode>
         <App />
-      </StrictMode>
-    )
+      </StrictMode>,
+    );
   })
   .catch((error) => {
-    console.error('[did-demo] Failed to initialize config:', error)
-    const rootElement = document.getElementById('root')
+    console.error('[did-demo] Failed to initialize config:', error);
+    const rootElement = document.getElementById('root');
     if (rootElement) {
       rootElement.innerHTML = `
         <div style="padding: 20px; color: red;">
@@ -35,6 +34,6 @@ initializeConfig()
           }</p>
           <p>Check the browser console for details.</p>
         </div>
-      `
+      `;
     }
-  })
+  });

@@ -2,44 +2,41 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import React, { useState } from 'react'
-import { getAgentiumClient } from '../api/agentium'
-import { AgentiumApiError, type OAuthTokenResponse } from '@semiotic-labs/agentium-sdk'
+import React, { useState } from 'react';
+import { getAgentiumClient } from '../api/agentium';
+import { AgentiumApiError, type OAuthTokenResponse } from '@semiotic-labs/agentium-sdk';
 
 interface TokenTestProps {
-  refreshToken: string
+  refreshToken: string;
 }
 
 const TokenTest: React.FC<TokenTestProps> = ({ refreshToken }) => {
-  const [refreshResult, setRefreshResult] = useState<OAuthTokenResponse | null>(
-    null
-  )
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [refreshResult, setRefreshResult] = useState<OAuthTokenResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleRefreshToken = async () => {
-    setLoading(true)
-    setError(null)
-    setRefreshResult(null)
+    setLoading(true);
+    setError(null);
+    setRefreshResult(null);
 
     try {
-      console.log('[TokenTest] Refreshing token...')
-      const client = await getAgentiumClient()
-      const result = await client.refreshToken(refreshToken)
-      console.log('[TokenTest] Token refreshed:', result)
-      setRefreshResult(result)
+      console.log('[TokenTest] Refreshing token...');
+      const client = await getAgentiumClient();
+      const result = await client.refreshToken(refreshToken);
+      console.log('[TokenTest] Token refreshed:', result);
+      setRefreshResult(result);
     } catch (err) {
-      console.error('[TokenTest] Error:', err)
+      console.error('[TokenTest] Error:', err);
       if (err instanceof AgentiumApiError) {
-        setError(`API Error (${err.statusCode}): ${err.message}`)
+        setError(`API Error (${err.statusCode}): ${err.message}`);
       } else {
-        setError(err instanceof Error ? err.message : 'Unknown error')
+        setError(err instanceof Error ? err.message : 'Unknown error');
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flow-section" style={{ marginTop: '32px' }}>
@@ -92,9 +89,7 @@ const TokenTest: React.FC<TokenTestProps> = ({ refreshToken }) => {
             borderRadius: '8px',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#00aa00' }}>
-            ✅ Token Refreshed Successfully
-          </h3>
+          <h3 style={{ marginTop: 0, color: '#00aa00' }}>✅ Token Refreshed Successfully</h3>
           <div style={{ marginBottom: '8px' }}>
             <strong>Token Type:</strong> {refreshResult.token_type}
           </div>
@@ -160,7 +155,7 @@ const TokenTest: React.FC<TokenTestProps> = ({ refreshToken }) => {
         </pre>
       </details>
     </div>
-  )
-}
+  );
+};
 
-export default TokenTest
+export default TokenTest;

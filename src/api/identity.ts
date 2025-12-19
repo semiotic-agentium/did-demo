@@ -6,16 +6,16 @@
 // API calls are now handled via agentium-sdk (see api/agentium.ts)
 
 export interface BadgeStatus {
-  status: string
+  status: string;
 }
 
 export interface ConnectIdentityResult {
-  success: boolean
-  did?: string
-  badge?: BadgeStatus
-  isNew?: boolean
-  accessToken?: string
-  refreshToken?: string
-  expiresIn?: number
-  error?: string
+  success: boolean;
+  did?: string;
+  badge?: BadgeStatus;
+  isNew?: boolean;
+  accessToken?: string;
+  refreshToken?: string;
+  expiresIn?: number;
+  error?: string;
 }

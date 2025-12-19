@@ -2,33 +2,29 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import React, { useState } from 'react'
-import StandardLogin from '../components/StandardLogin'
-import ZkLogin from '../components/ZkLogin'
-import TokenTest from '../components/TokenTest'
-import VCIssuance from '../components/VCIssuance'
-import type { ConnectIdentityResult } from '../api/identity'
+import React, { useState } from 'react';
+import StandardLogin from '../components/StandardLogin';
+import ZkLogin from '../components/ZkLogin';
+import TokenTest from '../components/TokenTest';
+import VCIssuance from '../components/VCIssuance';
+import type { ConnectIdentityResult } from '../api/identity';
 
 const MainPage: React.FC = () => {
   // Track login state from either login method
-  const [standardLoginResult, setStandardLoginResult] =
-    useState<ConnectIdentityResult | null>(null)
-  const [zkLoginResult, setZkLoginResult] =
-    useState<ConnectIdentityResult | null>(null)
+  const [standardLoginResult, setStandardLoginResult] = useState<ConnectIdentityResult | null>(
+    null,
+  );
+  const [zkLoginResult, setZkLoginResult] = useState<ConnectIdentityResult | null>(null);
 
   // Determine active login (whichever was used last)
-  const activeLogin = zkLoginResult || standardLoginResult
-  const hasValidLogin =
-    activeLogin?.success && activeLogin?.accessToken && activeLogin?.did
+  const activeLogin = zkLoginResult || standardLoginResult;
+  const hasValidLogin = activeLogin?.success && activeLogin?.accessToken && activeLogin?.did;
 
   return (
     <div className="main-container">
       <div style={{ textAlign: 'center', width: '100%' }}>
         <h1>DID Identity Demo</h1>
-        <p>
-          Connect your Google identity to get a decentralized identifier (DID)
-        </p>
+        <p>Connect your Google identity to get a decentralized identifier (DID)</p>
       </div>
 
       <div
@@ -40,9 +36,7 @@ const MainPage: React.FC = () => {
           boxSizing: 'border-box',
         }}
       >
-        <StandardLogin
-          onLoginResult={(result) => setStandardLoginResult(result)}
-        />
+        <StandardLogin onLoginResult={(result) => setStandardLoginResult(result)} />
         <ZkLogin onLoginResult={(result) => setZkLoginResult(result)} />
       </div>
 
@@ -76,7 +70,7 @@ const MainPage: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;
