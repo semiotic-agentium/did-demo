@@ -24,7 +24,6 @@ This demo highlights the following SDK capabilities:
 - **`AgentiumClient`:** A singleton `AgentiumClient` is initialized and used throughout the application. This client is the main entry point for interacting with the SDK.
 - **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials.
 - **Component-based Examples:** The `src/components` directory contains several React components that demonstrate different SDK features:
-  - `DidGenerator.tsx`: Shows how to create a DID from a Google ID token.
   - `VCIssuance.tsx`: Demonstrates fetching, verifying, and storing VCs in the browser.
   - `TokenTest.tsx`: Illustrates how to refresh OAuth access tokens.
 
