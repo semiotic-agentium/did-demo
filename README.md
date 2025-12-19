@@ -1,18 +1,28 @@
-# DID Demo Webapp
+# Agentium SDK Demo Webapp
 
-This project is a simple, single-page web application demonstrating two distinct authentication flows: a standard Google Sign-In and a zkLogin (Sui-specific login) flow using Google as the OpenID Connect (OIDC) provider.
+This project is a single-page web application demonstrating the use of the `@semiotic-labs/agentium-sdk` for Decentralized Identifier (DID) and Verifiable Credential (VC) management.
 
 ## Features
 
-- **Standard Google Sign-In:** Authenticates users via Google, retrieves an ID token, and displays its raw and decoded payload.
-- **zkLogin Flow (Google OIDC):** Demonstrates the initial steps of a zkLogin process, including:
-  - Generating an ephemeral keypair.
-  - Fetching the current epoch from the Sui Devnet.
-  - Generating randomness and a unique nonce.
-  - Redirecting to Google for authentication with the zkLogin-specific nonce.
-  - Handling the redirect back and displaying the raw and decoded ID token (JWT) obtained through the zkLogin process.
+This demo showcases the following features of the `@semiotic-labs/agentium-sdk`:
 
-## Setup
+*   **Decentralized Identifier (DID) Creation:** Create a DID from a Google ID token.
+*   **Verifiable Credential (VC) Issuance:** Issue and manage the lifecycle of VCs.
+*   **Client-Side VC Verification:** Verify VCs on the client-side using a WebAssembly (WASM) module.
+*   **OAuth Token Management:** Refresh OAuth access tokens.
+
+## How this Demo Uses the Agentium SDK
+
+This demo highlights the following SDK capabilities:
+
+*   **`AgentiumClient`:** A singleton `AgentiumClient` is initialized and used throughout the application. This client is the main entry point for interacting with the SDK.
+*   **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials.
+*   **Component-based Examples:** The `src/components` directory contains several React components that demonstrate different SDK features:
+    *   `DidGenerator.tsx`: Shows how to create a DID from a Google ID token.
+    *   `VCIssuance.tsx`: Demonstrates fetching, verifying, and storing VCs in the browser.
+    *   `TokenTest.tsx`: Illustrates how to refresh OAuth access tokens.
+
+## For Developers
 
 ### 1. Environment Variables
 
@@ -44,25 +54,67 @@ The application will typically be accessible at `http://localhost:5173`.
 
 ### 4. Google OAuth Client ID Configuration
 
-For both the Standard Google Sign-In and the zkLogin flow to work, you need to configure your Google OAuth Client ID correctly in the Google Cloud Console:
+For both the Google Sign-In and zkLogin flow to work, you need to configure your Google OAuth Client ID correctly in the Google Cloud Console:
 
 - Ensure your **Authorized JavaScript origins** includes `http://localhost:5173`.
 - Ensure your **Authorized redirect URIs** includes `http://localhost:5173`.
 
-## Development
-
 ### Linting and Formatting
 
-This project uses ESLint for linting and Prettier for code formatting.
+This project uses ESLint for linting and Prettier for code formatting. The following npm scripts are available:
+
+- **Check all (lint and format):**
+
+  ```bash
+  npm run check
+  ```
 
 - **Run Linter:**
+
   ```bash
   npm run lint
   ```
-- **Run Prettier (to format code):**
+
+- **Check formatting only:**
+
   ```bash
-  npx prettier --write .
+  npm run format:check
   ```
+
+- **Format code (fix issues):**
+  ```bash
+  npm run format:write
+  ```
+
+### REUSE Compliance
+
+This project follows the [REUSE Specification](https://reuse.software/spec/). To ensure compliance:
+
+1.  **Install REUSE Tool:** You'll need to install the `reuse` command-line tool, for example via `pip`:
+
+    ```bash
+    pip install reuse
+    ```
+
+2.  **Applying SPDX Headers:** To add or update SPDX license and copyright headers to all relevant files:
+
+    ```bash
+    npm run reuse:write
+    ```
+
+3.  **Verify Compliance:** To check if the project is fully REUSE compliant:
+
+    ```bash
+    npm run reuse:check
+    ```
+
+### Building the Project
+
+To compile the TypeScript code into JavaScript in the `dist` folder:
+
+```bash
+npm run build
+```
 
 ---
 
