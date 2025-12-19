@@ -23,7 +23,7 @@ This demo showcases a modern and robust integration of the `@semiotic-labs/agent
 
 - **Agentium Client:** The `AgentiumClient` is initialized once at the application's entry point (`src/main.tsx`) and provided to the entire component tree using a React Context (`src/contexts/AgentiumContext.tsx`).
 
-- **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials. The `initializeWasm` function in `src/api/agentium.ts` ensures the WASM module is loaded and ready before any verification operations are performed.
+- **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials.
 
 - **Component-based Examples:** The `src/components` directory contains several React components that demonstrate different SDK features:
   - `StandardLogin.tsx` and `ZkLogin.tsx`: These components demonstrate how to use the `connectGoogleIdentity` method to create a DID from a Google ID token. They also showcase handling both standard and zkLogin authentication flows.

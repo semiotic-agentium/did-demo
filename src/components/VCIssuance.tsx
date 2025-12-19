@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import React, { useState, useEffect } from 'react';
-import { initializeWasm } from '../api/agentium';
+import { ensureWasmReady } from '@semiotic-labs/agentium-sdk';
+import { wasmUrl} from '@semiotic-labs/agentium-sdk/wasm-url';
 import {
   createBrowserStorage,
   type VerificationResult,
@@ -40,7 +41,7 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
     const init = async () => {
       try {
         console.log('[VCIssuance] Initializing WASM...');
-        await initializeWasm();
+        await ensureWasmReady(wasmUrl);
         setWasmReady(true);
         console.log('[VCIssuance] WASM ready');
 

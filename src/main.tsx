@@ -8,6 +8,7 @@ import './index.css';
 import App from './App.tsx';
 import { initializeConfig } from './config';
 import { AgentiumClient } from '@semiotic-labs/agentium-sdk';
+import { wasmUrl } from '@semiotic-labs/agentium-sdk/wasm-url';
 import { AgentiumContext } from './contexts/AgentiumContext';
 
 // Initialize runtime configuration before rendering
@@ -18,7 +19,7 @@ initializeConfig()
     if (!rootElement) {
       throw new Error('Root element not found');
     }
-    const agentiumClient = new AgentiumClient({});
+    const agentiumClient = new AgentiumClient({ wasmUrl });
     createRoot(rootElement).render(
       <StrictMode>
         <AgentiumContext.Provider value={agentiumClient}>
