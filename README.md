@@ -19,13 +19,18 @@ This demo showcases the following features of the `@semiotic-labs/agentium-sdk`:
 
 ## How this Demo Uses the Agentium SDK
 
-This demo highlights the following SDK capabilities:
+This demo showcases a modern and robust integration of the `@semiotic-labs/agentium-sdk` in a React application. The following architectural patterns and SDK features are highlighted:
 
-- **`AgentiumClient`:** A singleton `AgentiumClient` is initialized and used throughout the application. This client is the main entry point for interacting with the SDK.
-- **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials.
+- **Agentium Client:** The `AgentiumClient` is initialized once at the application's entry point (`src/main.tsx`) and provided to the entire component tree using a React Context (`src/contexts/AgentiumContext.tsx`).
+
+- **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials. The `initializeWasm` function in `src/api/agentium.ts` ensures the WASM module is loaded and ready before any verification operations are performed.
+
 - **Component-based Examples:** The `src/components` directory contains several React components that demonstrate different SDK features:
-  - `VCIssuance.tsx`: Demonstrates fetching, verifying, and storing VCs in the browser.
-  - `TokenTest.tsx`: Illustrates how to refresh OAuth access tokens.
+  - `StandardLogin.tsx` and `ZkLogin.tsx`: These components demonstrate how to use the `connectGoogleIdentity` method to create a DID from a Google ID token. They also showcase handling both standard and zkLogin authentication flows.
+  - `VCIssuance.tsx`: This component demonstrates the full lifecycle of a Verifiable Credential, including fetching, verifying, and storing VCs in the browser using `fetchMembershipCredential`, `verifyCredential`, and `connectAndStoreMembership`.
+  - `TokenTest.tsx`: This component illustrates how to use the `refreshToken` method to refresh OAuth access tokens.
+
+
 
 ## For Developers
 
