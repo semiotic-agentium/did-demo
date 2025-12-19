@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ensureWasmReady } from '@semiotic-labs/agentium-sdk';
-import { wasmUrl} from '@semiotic-labs/agentium-sdk/wasm-url';
+import { wasmUrl } from '@semiotic-labs/agentium-sdk/wasm-url';
 import {
   createBrowserStorage,
   type VerificationResult,

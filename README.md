@@ -30,8 +30,6 @@ This demo showcases a modern and robust integration of the `@semiotic-labs/agent
   - `VCIssuance.tsx`: This component demonstrates the full lifecycle of a Verifiable Credential, including fetching, verifying, and storing VCs in the browser using `fetchMembershipCredential`, `verifyCredential`, and `connectAndStoreMembership`.
   - `TokenTest.tsx`: This component illustrates how to use the `refreshToken` method to refresh OAuth access tokens.
 
-
-
 ## For Developers
 
 ### 1. Environment Variables
