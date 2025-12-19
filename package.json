@@ -7,7 +7,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "check": "npm run lint && npm run format:check",
+    "reuse:check": "reuse lint",
+    "reuse:write": "reuse annotate --license MIT --copyright \"Semiotic AI, Inc.\" --year 2025 -r . --fallback-dot-license --skip-existing"
+
   },
   "dependencies": {
     "@mysten/sui": "^1.45.0",
@@ -16,7 +22,8 @@
     "axios": "^1.13.2",
     "jwt-decode": "^4.0.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "reuse": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -24,7 +31,7 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
