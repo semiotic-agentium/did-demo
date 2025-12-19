@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import React, { useState } from 'react';
-import { getAgentiumClient } from '../api/agentium';
 import { AgentiumApiError, type OAuthTokenResponse } from '@semiotic-labs/agentium-sdk';
+import { useAgentium } from '../hooks/useAgentium';
 
 interface TokenTestProps {
   refreshToken: string;
@@ -14,6 +14,7 @@ const TokenTest: React.FC<TokenTestProps> = ({ refreshToken }) => {
   const [refreshResult, setRefreshResult] = useState<OAuthTokenResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const agentiumClient = useAgentium();
 
   const handleRefreshToken = async () => {
     setLoading(true);
@@ -22,8 +23,7 @@ const TokenTest: React.FC<TokenTestProps> = ({ refreshToken }) => {
 
     try {
       console.log('[TokenTest] Refreshing token...');
-      const client = await getAgentiumClient();
-      const result = await client.refreshToken(refreshToken);
+      const result = await agentiumClient.refreshToken(refreshToken);
       console.log('[TokenTest] Token refreshed:', result);
       setRefreshResult(result);
     } catch (err) {

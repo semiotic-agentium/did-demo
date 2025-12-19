@@ -3,12 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import React, { useState, useEffect } from 'react';
-import { getAgentiumClient, initializeWasm } from '../api/agentium';
+import { initializeWasm } from '../api/agentium';
 import {
   createBrowserStorage,
   type VerificationResult,
   type DidDocument,
 } from '@semiotic-labs/agentium-sdk';
+import { useAgentium } from '../hooks/useAgentium';
 
 interface MembershipCredential {
   jwt: string;
@@ -32,6 +33,7 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
   const [issuing, setIssuing] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const agentiumClient = useAgentium();
 
   // Initialize WASM and browser storage on mount
   useEffect(() => {
@@ -43,12 +45,11 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
         console.log('[VCIssuance] WASM ready');
 
         // Set up browser storage for VCs
-        const client = await getAgentiumClient();
-        client.setVcStorage(createBrowserStorage());
+        agentiumClient.setVcStorage(createBrowserStorage());
         console.log('[VCIssuance] Browser storage configured');
 
         // Check for stored credential
-        const stored = client.getStoredCredential();
+        const stored = agentiumClient.getStoredCredential();
         if (stored) {
           console.log('[VCIssuance] Found stored credential');
           // Could restore the stored credential here if needed
@@ -59,14 +60,13 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
       }
     };
     init();
-  }, []);
+  }, [agentiumClient]);
 
   // Fetch DID document
   const fetchDidDocument = async () => {
     try {
       console.log('[VCIssuance] Fetching DID document...');
-      const client = await getAgentiumClient();
-      const doc = await client.fetchIssuerDidDocument();
+      const doc = await agentiumClient.fetchIssuerDidDocument();
       console.log('[VCIssuance] DID document:', doc);
       setDidDocument(doc);
     } catch (err) {
@@ -82,10 +82,8 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
     setVerification(null);
 
     try {
-      const client = await getAgentiumClient();
-
       // Fetch credential from backend using SDK
-      const jwt = await client.fetchMembershipCredential(accessToken);
+      const jwt = await agentiumClient.fetchMembershipCredential(accessToken);
 
       // Decode JWT to extract claims for display
       const parts = jwt.split('.');
@@ -118,7 +116,7 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
       // Now verify the credential using WASM
       setVerifying(true);
       try {
-        const verificationResult = await client.verifyCredential(jwt);
+        const verificationResult = await agentiumClient.verifyCredential(jwt);
         setVerification(verificationResult);
 
         // Store credential in browser storage if valid
@@ -155,13 +153,12 @@ const VCIssuance: React.FC<VCIssuanceProps> = ({ accessToken }) => {
 
     try {
       console.log('[VCIssuance] Running full flow (connectAndStoreMembership)...');
-      const client = await getAgentiumClient();
-      const result = await client.connectAndStoreMembership(accessToken);
+      const result = await agentiumClient.connectAndStoreMembership(accessToken);
       console.log('[VCIssuance] Full flow result:', result);
       setVerification(result);
 
       // Retrieve the stored JWT to display
-      const stored = client.getStoredCredential();
+      const stored = agentiumClient.getStoredCredential();
       if (stored) {
         const parts = stored.split('.');
         if (parts.length === 3) {

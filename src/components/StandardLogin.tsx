@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import type { CredentialResponse } from '@react-oauth/google';
-import { getAgentiumClient } from '../api/agentium';
+import { useAgentium } from '../hooks/useAgentium';
 import type { ConnectIdentityResult } from '../api/identity';
 
 interface StandardLoginProps {
@@ -16,6 +16,7 @@ const StandardLogin: React.FC<StandardLoginProps> = ({ onLoginResult }) => {
   const [idToken, setIdToken] = useState<string | null>(null);
   const [identityResult, setIdentityResult] = useState<ConnectIdentityResult | null>(null);
   const [connecting, setConnecting] = useState(false);
+  const agentiumClient = useAgentium();
 
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
@@ -27,8 +28,7 @@ const StandardLogin: React.FC<StandardLoginProps> = ({ onLoginResult }) => {
       setIdentityResult(null);
 
       try {
-        const client = await getAgentiumClient();
-        const response = await client.connectGoogleIdentity(token);
+        const response = await agentiumClient.connectGoogleIdentity(token);
 
         const result: ConnectIdentityResult = {
           success: true,

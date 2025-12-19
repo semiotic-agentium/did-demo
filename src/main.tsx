@@ -7,6 +7,8 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { initializeConfig } from './config';
+import { AgentiumClient } from '@semiotic-labs/agentium-sdk';
+import { AgentiumContext } from './contexts/AgentiumContext';
 
 // Initialize runtime configuration before rendering
 initializeConfig()
@@ -16,9 +18,12 @@ initializeConfig()
     if (!rootElement) {
       throw new Error('Root element not found');
     }
+    const agentiumClient = new AgentiumClient({});
     createRoot(rootElement).render(
       <StrictMode>
-        <App />
+        <AgentiumContext.Provider value={agentiumClient}>
+          <App />
+        </AgentiumContext.Provider>
       </StrictMode>,
     );
   })

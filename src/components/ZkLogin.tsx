@@ -8,7 +8,7 @@ import { generateNonce, generateRandomness } from '@mysten/sui/zklogin';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
 import { jwtDecode } from 'jwt-decode';
 import { getGoogleClientId } from '../config';
-import { getAgentiumClient } from '../api/agentium';
+import { useAgentium } from '../hooks/useAgentium';
 import type { ConnectIdentityResult } from '../api/identity';
 
 interface ZkLoginProps {
@@ -20,6 +20,7 @@ const ZkLogin: React.FC<ZkLoginProps> = ({ onLoginResult }) => {
   const [loading, setLoading] = useState<string | null>(null);
   const [identityResult, setIdentityResult] = useState<ConnectIdentityResult | null>(null);
   const [connecting, setConnecting] = useState(false);
+  const agentiumClient = useAgentium();
 
   // Parse JWT from URL hash once on component load with error handling
   let initialJwtTokenFromHash: string | null = null;
@@ -53,9 +54,8 @@ const ZkLogin: React.FC<ZkLoginProps> = ({ onLoginResult }) => {
       setIdentityResult(null);
 
       try {
-        const client = await getAgentiumClient();
         // zkLogin uses external Google OAuth, so skip audience validation
-        const response = await client.connectGoogleIdentity(token, {
+        const response = await agentiumClient.connectGoogleIdentity(token, {
           skipAudienceValidation: true,
         });
 
@@ -81,7 +81,7 @@ const ZkLogin: React.FC<ZkLoginProps> = ({ onLoginResult }) => {
         setConnecting(false);
       }
     },
-    [onLoginResult],
+    [onLoginResult, agentiumClient],
   );
 
   // Set initial error if parsing failed

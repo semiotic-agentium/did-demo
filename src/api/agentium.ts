@@ -5,47 +5,10 @@
 // Shared AgentiumClient instance for the did-demo app
 // Uses runtime config for API base URL
 
-import { AgentiumClient, ensureWasmReady } from '@semiotic-labs/agentium-sdk';
+import { ensureWasmReady } from '@semiotic-labs/agentium-sdk';
 import { wasmUrl } from '@semiotic-labs/agentium-sdk/wasm-url';
-import { loadRuntimeConfig } from '../config/runtime-config';
 
-let clientInstance: AgentiumClient | null = null;
 let wasmInitialized = false;
-
-/**
- * Gets the API base URL from runtime config or environment variable.
- */
-async function getApiBaseUrl(): Promise<string> {
-  try {
-    const config = await loadRuntimeConfig();
-    if (config.apiBaseUrl) {
-      return config.apiBaseUrl;
-    }
-  } catch (error) {
-    console.warn('[agentium] Failed to load runtime config:', error);
-  }
-
-  // Fall back to build-time env var or empty (relative URLs)
-  return import.meta.env.VITE_API_BASE_URL || '';
-}
-
-/**
- * Gets or creates the shared AgentiumClient instance.
- * Lazily initializes the client with the correct base URL.
- */
-export async function getAgentiumClient(): Promise<AgentiumClient> {
-  if (clientInstance) {
-    return clientInstance;
-  }
-
-  const baseURL = await getApiBaseUrl();
-  clientInstance = new AgentiumClient({
-    baseURL: baseURL || undefined, // Use SDK default if empty
-  });
-
-  console.log('[agentium] Client initialized with baseURL:', baseURL || '(default)');
-  return clientInstance;
-}
 
 /**
  * Ensures WASM module is initialized for VC verification.
