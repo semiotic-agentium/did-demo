@@ -4,67 +4,68 @@ SPDX-FileCopyrightText: 2025 Semiotic AI, Inc.
 SPDX-License-Identifier: MIT
 -->
 
-# DID Demo Webapp
+# Agentium SDK Demo Webapp
 
-This project is a simple, single-page web application demonstrating two distinct authentication flows: a standard Google Sign-In and a zkLogin (Sui-specific login) flow using Google as the OpenID Connect (OIDC) provider.
+This project is a single-page web application demonstrating the use of the `@semiotic-labs/agentium-sdk` for Decentralized Identifier (DID) and Verifiable Credential (VC) management.
 
 ## Features
 
-- **Standard Google Sign-In:** Authenticates users via Google, retrieves an ID token, and displays its raw and decoded payload.
-- **zkLogin Flow (Google OIDC):** Demonstrates the initial steps of a zkLogin process, including:
-  - Generating an ephemeral keypair.
-  - Fetching the current epoch from the Sui Devnet.
-  - Generating randomness and a unique nonce.
-  - Redirecting to Google for authentication with the zkLogin-specific nonce.
-  - Handling the redirect back and displaying the raw and decoded ID token (JWT) obtained through the zkLogin process.
-- **DID Generation with Agentium SDK:** After a successful sign-in, the application uses the `@semiotic-labs/agentium-sdk` to connect the user's identity and generate a Decentralized Identifier (DID).
+This demo showcases the following features of the `@semiotic-labs/agentium-sdk`:
 
-## Agentium SDK Integration
+- **Decentralized Identifier (DID) Creation:** Create a DID from a Google ID token.
+- **Verifiable Credential (VC) Issuance:** Issue and manage the lifecycle of VCs.
+- **Client-Side VC Verification:** Verify VCs on the client-side using a WebAssembly (WASM) module.
+- **OAuth Token Management:** Refresh OAuth access tokens.
 
-This demo showcases how to use the `@semiotic-labs/agentium-sdk` to generate a DID from a Google ID token. The core logic is encapsulated in the `src/components/DidGenerator.tsx` component.
+## How this Demo Uses the Agentium SDK
 
-After a successful sign-in (either standard or zkLogin), the `DidGenerator` component receives the ID token and performs the following steps:
+This demo showcases a modern and robust integration of the `@semiotic-labs/agentium-sdk` in a React application. The following architectural patterns and SDK features are highlighted:
 
-1.  Initializes the `AgentiumClient` from the SDK.
-2.  Calls the `connectGoogleIdentity` method with the ID token.
-3.  Displays the received DID and a "Registered on Agentium" badge.
+- **Agentium Client:** The `AgentiumClient` is initialized once at the application's entry point (`src/main.tsx`) and provided to the entire component tree using a React Context (`src/contexts/AgentiumContext.tsx`).
+
+- **WASM-based Verification:** The demo utilizes a WebAssembly (WASM) module for efficient, client-side verification of Verifiable Credentials.
+
+- **Component-based Examples:** The `src/components` directory contains several React components that demonstrate different SDK features:
+  - `StandardLogin.tsx` and `ZkLogin.tsx`: These components demonstrate how to use the `connectGoogleIdentity` method to create a DID from a Google ID token. They also showcase handling both standard and zkLogin authentication flows.
+  - `VCIssuance.tsx`: This component demonstrates the full lifecycle of a Verifiable Credential, including fetching, verifying, and storing VCs in the browser using `fetchMembershipCredential`, `verifyCredential`, and `connectAndStoreMembership`.
+  - `TokenTest.tsx`: This component illustrates how to use the `refreshToken` method to refresh OAuth access tokens.
 
 ## For Developers
 
-### Project Setup
+### 1. Environment Variables
 
-1.  **Environment Variables**
+This project uses environment variables to manage sensitive information like the Google OAuth Client ID.
 
-    This project uses environment variables to manage sensitive information like the Google OAuth Client ID.
-    - Copy `.env.example` to `.env` and set your Google OAuth Client ID.
+- Copy `.env.example` to `.env` and set your Google OAuth Client ID.
 
-      ```
-      VITE_GOOGLE_CLIENT_ID="YOUR_ACTUAL_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-      ```
+  ```
+  VITE_GOOGLE_CLIENT_ID="YOUR_ACTUAL_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+  ```
 
-2.  **Install Dependencies**
+### 2. Install Dependencies
 
-    Install the project dependencies using npm:
+Install the project dependencies using npm:
 
-    ```bash
-    npm install
-    ```
+```bash
+npm install
+```
 
-3.  **Run the Application**
+### 3. Run the Application
 
-    To start the development server:
+To start the development server:
 
-    ```bash
-    npm run dev
-    ```
+```bash
+npm run dev
+```
 
-    The application will typically be accessible at `http://localhost:5173`.
+The application will typically be accessible at `http://localhost:5173`.
 
-4.  **Google OAuth Client ID Configuration**
+### 4. Google OAuth Client ID Configuration
 
-    For both the Standard Google Sign-In and the zkLogin flow to work, you need to configure your Google OAuth Client ID correctly in the Google Cloud Console:
-    - Ensure your **Authorized JavaScript origins** includes `http://localhost:5173`.
-    - Ensure your **Authorized redirect URIs** includes `http://localhost:5173`.
+For both the Google Sign-In and zkLogin flow to work, you need to configure your Google OAuth Client ID correctly in the Google Cloud Console:
+
+- Ensure your **Authorized JavaScript origins** includes `http://localhost:5173`.
+- Ensure your **Authorized redirect URIs** includes `http://localhost:5173`.
 
 ### Linting and Formatting
 
@@ -125,4 +126,4 @@ npm run build
 
 ---
 
-**Note:** This demo focuses on the frontend authentication flows and includes DID generation via the Agentium SDK. It does not include the full zkLogin proof generation and transaction signing beyond JWT retrieval.
+**Note:** This demo focuses on the frontend authentication flows. It does not include backend integration for DID creation or the full zkLogin proof generation and transaction signing beyond JWT retrieval.
