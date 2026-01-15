@@ -2,10 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Runtime configuration loaded from /config.json at startup
-// This allows configuration to be injected at runtime (e.g., from K8s ConfigMap/Secret)
-// instead of being baked into the build
-
 export interface RuntimeConfig {
   googleClientId?: string;
   apiBaseUrl?: string;
@@ -25,7 +21,10 @@ export async function loadRuntimeConfig(): Promise<RuntimeConfig> {
       return cachedConfig || {};
     }
   } catch (error) {
-    console.warn('[Config] Failed to load runtime config, using defaults:', error);
+    console.warn(
+      '[Config] Failed to load runtime config, using defaults:',
+      error
+    );
   }
 
   return {};

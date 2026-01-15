@@ -2,28 +2,65 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Runtime configuration loaded from /config.json (overrides build-time env vars)
 import { loadRuntimeConfig, type RuntimeConfig } from './config/runtime-config';
 
+// Runtime config loaded from /config.json (mounted from ConfigMap in K8s)
+// Falls back to build-time env vars for local development
 let runtimeConfig: RuntimeConfig = {};
+let configLoaded = false;
+let configLoadPromise: Promise<void> | null = null;
 
-// Initialize runtime config (call this before using GOOGLE_CLIENT_ID)
-export async function initializeConfig() {
-  runtimeConfig = await loadRuntimeConfig();
-  return runtimeConfig;
+// Initialize runtime config (called on app startup)
+export async function initializeConfig(): Promise<void> {
+  if (configLoaded) {
+    return;
+  }
+  if (configLoadPromise) {
+    return configLoadPromise;
+  }
+  configLoadPromise = (async () => {
+    runtimeConfig = await loadRuntimeConfig();
+    configLoaded = true;
+  })();
+  return configLoadPromise;
 }
 
-// Google Client ID - runtime config (from /config.json) overrides build-time env var
-// IMPORTANT: Do NOT commit your actual Client ID to version control!
-// For local dev, create a .env file with VITE_GOOGLE_CLIENT_ID
-// For K8s, use ConfigMap to inject googleClientId at runtime
+
+// External Google Client ID - used for client-side Google SDK (@react-oauth/google)
+// This is for StandardLogin and ZkLogin flows that use Google's client-side SDK
+// Runtime config (from /config.json) takes precedence over build-time env vars
+export function getGoogleExternalClientId(): string {
+  // Config should be loaded by now (initialized in main.tsx before app render)
+  // But we provide fallback to build-time env vars
+  return (
+    runtimeConfig.googleClientId ||
+    import.meta.env.VITE_GOOGLE_EXTERNAL_CLIENT_ID ||
+    import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+    ''
+  );
+}
+
+// Legacy alias for backward compatibility
 export function getGoogleClientId(): string {
-  return runtimeConfig.googleClientId || import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+  return getGoogleExternalClientId();
 }
 
-// For backward compatibility, export as a getter (note: this is evaluated at module load time)
-// Use getGoogleClientId() function instead for runtime config support
-export const GOOGLE_CLIENT_ID = getGoogleClientId();
+// API base URL for backend communication
+// Runtime config (from /config.json) takes precedence over build-time env vars
+export function getApiBaseUrl(): string {
+  // Config should be loaded by now (initialized in main.tsx before app render)
+  // But we provide fallback to build-time env vars
+  const url = runtimeConfig.apiBaseUrl ||
+    import.meta.env.VITE_API_BASE_URL ||
+    'http://localhost:9503';
+
+  // Log for debugging
+  if (import.meta.env.DEV) {
+    console.log('[Config] API Base URL:', url, 'Runtime config:', runtimeConfig);
+  }
+
+  return url;
+}
 
 // REDIRECT_URI can be derived dynamically from window.location.origin,
 // so it does not need to be an environment variable or a constant here.
