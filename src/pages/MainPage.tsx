@@ -2,73 +2,31 @@
 //
 // SPDX-License-Identifier: MIT
 
-import React, { useState } from 'react';
-import StandardLogin from '../components/StandardLogin';
-import ZkLogin from '../components/ZkLogin';
-import TokenTest from '../components/TokenTest';
-import VCIssuance from '../components/VCIssuance';
-import type { ConnectIdentityResult } from '../api/identity';
+import React from 'react';
+import LoginTabs from '../components/LoginTabs';
+import VcIssuance from '../components/VcIssuance';
 
 const MainPage: React.FC = () => {
-  // Track login state from either login method
-  const [standardLoginResult, setStandardLoginResult] = useState<ConnectIdentityResult | null>(
-    null,
-  );
-  const [zkLoginResult, setZkLoginResult] = useState<ConnectIdentityResult | null>(null);
-
-  // Determine active login (whichever was used last)
-  const activeLogin = zkLoginResult || standardLoginResult;
-  const hasValidLogin = activeLogin?.success && activeLogin?.accessToken && activeLogin?.did;
-
   return (
     <div className="main-container">
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        <h1>DID Identity Demo</h1>
-        <p>Connect your Google identity to get a decentralized identifier (DID)</p>
+      <header className="app-header">
+        <h1>DID & Verifiable Credentials Demo</h1>
+        <p className="app-subtitle">
+          Explore decentralized identity and credential issuance with multiple authentication flows
+        </p>
+      </header>
+      
+      <div className="content-sections">
+        <section className="login-section">
+          <h2>Authentication Methods</h2>
+          <LoginTabs />
+        </section>
+
+        <section className="vc-section-main">
+          <h2>Verifiable Credentials</h2>
+          <VcIssuance />
+        </section>
       </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '24px',
-          width: '100%',
-          boxSizing: 'border-box',
-        }}
-      >
-        <StandardLogin onLoginResult={(result) => setStandardLoginResult(result)} />
-        <ZkLogin onLoginResult={(result) => setZkLoginResult(result)} />
-      </div>
-
-      {/* Token Test Section - Visible when logged in */}
-      {hasValidLogin && activeLogin?.refreshToken && (
-        <div
-          style={{
-            marginTop: '48px',
-            width: '100%',
-            maxWidth: '800px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          <TokenTest refreshToken={activeLogin.refreshToken} />
-        </div>
-      )}
-
-      {/* VC Issuance Section - Visible when logged in */}
-      {hasValidLogin && activeLogin && (
-        <div
-          style={{
-            marginTop: '48px',
-            width: '100%',
-            maxWidth: '800px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          <VCIssuance accessToken={activeLogin.accessToken!} />
-        </div>
-      )}
     </div>
   );
 };
