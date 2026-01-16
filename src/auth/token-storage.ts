@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { TokenResponse } from '../types/auth';
+import type { OAuthTokenResponse } from '@semiotic-labs/agentium-sdk';
 
 /**
  * LocalStorage keys for token storage
@@ -32,7 +32,7 @@ export class TokenStorageError extends Error {
  * @param tokenResponse - Token response from OAuth/OIDC flow
  * @throws {TokenStorageError} if localStorage operations fail
  */
-export const storeTokens = (tokenResponse: TokenResponse): void => {
+export const storeTokens = (tokenResponse: OAuthTokenResponse): void => {
   try {
     const expiryTime = Date.now() + (tokenResponse.expires_in * 1000);
     

@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import { AgentiumApiError, type OAuthTokenResponse } from '@semiotic-labs/agentium-sdk';
-import { useAgentium } from '../hooks/useAgentium';
+import { useAgentium } from '../contexts/AgentiumContext';
 
 interface TokenTestProps {
   refreshToken: string;
