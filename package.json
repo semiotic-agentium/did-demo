@@ -18,11 +18,13 @@
     "@mysten/sui": "^1.45.0",
     "@react-oauth/google": "^0.12.2",
     "@semiotic-labs/agentium-sdk": "^0.8.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "axios": "^1.13.2",
     "jwt-decode": "^4.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "reuse": "^2.0.0"
+    "react-router-dom": "^7.12.0",
+    "react-syntax-highlighter": "^16.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
