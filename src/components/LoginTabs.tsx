@@ -6,8 +6,9 @@ import React, { useState, useEffect } from 'react';
 import StandardLogin from './StandardLogin';
 import ZkLogin from './ZkLogin';
 import OidcLogin from './OidcLogin';
+import WalletLogin from './WalletLogin';
 
-type TabType = 'standard' | 'zklogin' | 'oidc';
+type TabType = 'standard' | 'zklogin' | 'oidc' | 'wallet';
 
 const TAB_STORAGE_KEY = 'did-demo-active-tab';
 
@@ -25,7 +26,7 @@ const LoginTabs: React.FC = () => {
     
     // Check localStorage for previously selected tab
     const stored = localStorage.getItem(TAB_STORAGE_KEY);
-    if (stored && ['standard', 'zklogin', 'oidc'].includes(stored)) {
+    if (stored && ['standard', 'zklogin', 'oidc', 'wallet'].includes(stored)) {
       return stored as TabType;
     }
     
@@ -55,6 +56,11 @@ const LoginTabs: React.FC = () => {
       label: 'zkLogin',
       description: 'Sui zkLogin flow with Google OIDC',
     },
+    {
+      id: 'wallet',
+      label: 'Wallet',
+      description: 'Sign in with MetaMask or Web3 wallet',
+    },
   ];
 
   return (
@@ -74,6 +80,7 @@ const LoginTabs: React.FC = () => {
         {activeTab === 'oidc' && <OidcLogin />}
         {activeTab === 'standard' && <StandardLogin />}
         {activeTab === 'zklogin' && <ZkLogin />}
+        {activeTab === 'wallet' && <WalletLogin />}
       </div>
     </div>
   );
